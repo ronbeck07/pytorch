@@ -491,7 +491,7 @@ Tensor randint(
     IntArrayRef size,
     Generator* generator,
     const TensorOptions& options) {
-  auto result = at::empty(size, options);
+  auto result = at::empty(size, at::dtype(at::kLong).merge_in(options));
   return result.random_(low, high, generator);
 }
 
@@ -544,7 +544,7 @@ Tensor randint_like(
     int64_t high,
     const TensorOptions& options,
     c10::optional<c10::MemoryFormat> optional_memory_format) {
-  auto result = at::empty_like(self, options, optional_memory_format);
+  auto result = at::empty_like(self, at::dtype(at::kLong).merge_in(options), optional_memory_format);
   return result.random_(0, high, nullptr);
   return native::randint(high, self.sizes(), nullptr, options);
 }
@@ -555,7 +555,7 @@ Tensor randint_like(
     int64_t high,
     const TensorOptions& options,
     c10::optional<c10::MemoryFormat> optional_memory_format) {
-  auto result = at::empty_like(self, options, optional_memory_format);
+  auto result = at::empty_like(self, at::dtype(at::kLong).merge_in(options), optional_memory_format);
   return result.random_(low, high, nullptr);
 }
 
@@ -636,7 +636,7 @@ Tensor randperm(int64_t n, const TensorOptions& options) {
 }
 
 Tensor randperm(int64_t n, Generator* generator, const TensorOptions& options) {
-  auto tensor = at::empty(n, options);
+  auto tensor = at::empty(n, at::dtype(at::kLong).merge_in(options));
   return at::randperm_out(tensor, n, generator);
 }
 
